@@ -51,15 +51,12 @@ def sort_files():
     '''Сортировка списка файлов по числу строк и запись результата в файл "out.txt"'''
     file_dir = 'sorted\\'
     files = ['1.txt', '2.txt', '3.txt']
-    # flen = [get_file_len(file_dir+fname) for fname in files]
+    # Делаем кортежи из длины и имени файла, сразу сортируем по длине
     files = sorted(list(map(lambda item: (get_file_len(file_dir+item), item), files)))
-    # files = list(zip(files, flen))
-    #files.sort(key = lambda x: x[1])
     print('Sorted: ', files)
 
     with open('out.txt', 'w', encoding='utf-8') as outfile:
         for len, fname in files:
-        # for fname, len in files:
             with open(file_dir+fname, 'r', encoding='utf-8') as infile:
                 text = infile.readlines()
                 text[-1] = text[-1].rstrip() + '\n'  # Не все части текста имеют перенос в конце строки
