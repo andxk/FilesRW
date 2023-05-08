@@ -1,4 +1,3 @@
-#import pprint as pprint
 from pprint import pprint
 
 
@@ -42,9 +41,36 @@ def get_shop_list_by_dishes(dishes, person_count):
 
 
 
+def get_file_len(filename):
+    with open(filename, 'r', encoding='utf-8') as file:
+        return sum(1 for line in file )
+    
+
+
+def sort_files():
+    '''Сортировка списка файлов по числу строк и запись результата в файл "out.txt"'''
+    file_dir = 'sorted\\'
+    files = ['1.txt', '2.txt', '3.txt']
+    flen = [get_file_len(file_dir+fname) for fname in files]
+    files = list(zip(files, flen))
+    files.sort(key = lambda x: x[1])
+    print('Sorted: ', files)
+
+    with open('out.txt', 'w', encoding='utf-8') as outfile:
+        for fname, len in files:
+            with open(file_dir+fname, 'r', encoding='utf-8') as infile:
+                text = infile.readlines()
+                text[-1] = text[-1].rstrip() + '\n'  # Не все части текста имеют перенос в конце строки
+            outfile.write(f'{fname}\n{len}\n')
+            outfile.writelines(text)
+    print('Файл "out.txt" сформирован')
+
 
 
 pprint(read_recipes('recipes.txt'), width=60)
 print()
 pprint(get_shop_list_by_dishes(['Омлет', 'Фахитос'], 3))
+print()
+
+sort_files()
 print()
